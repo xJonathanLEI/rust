@@ -1,6 +1,6 @@
-//! ABI definitions for symbols exported by risc0-zkvm-platform.
+//! ABI definitions for symbols exported by zkvm platforms.
 
-// Included here so we don't have to depend on risc0-zkvm-platform.
+// Included here so we don't have to depend on zkvm platform crates.
 //
 // FIXME: Should we move this to the "libc" crate?  It seems like other
 // architectures put a lot of this kind of stuff there.  But there's
@@ -34,7 +34,10 @@ extern "C" {
         buf: *const u8,
         count: u32,
     );
+    #[cfg(target_vendor = "risc0")]
     pub fn sys_rand(recv_buf: *mut u32, words: usize);
+    #[cfg(target_vendor = "succinct")]
+    pub fn sys_rand(recv_buf: *mut u8, words: usize);
     pub fn sys_panic(msg_ptr: *const u8, len: usize) -> !;
     pub fn sys_log(msg_ptr: *const u8, len: usize);
     pub fn sys_cycle_count() -> usize;
